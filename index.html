@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyChord Piano</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="loading-overlay" class="overlay">
+  <div class="overlay-card">
+    <div class="logo-note">♪</div>
+    <h1>KeyChord Piano</h1>
+    <div id="loading-text">
+      <p>Loading real piano samples&hellip;</p>
+      <div class="spinner"></div>
+    </div>
+    <button id="start-btn" disabled>Loading&hellip;</button>
+  </div>
+</div>
+
+<div class="app">
+  <header class="app-header">
+    <div class="brand"><span class="logo-note small">♪</span> KeyChord Piano</div>
+    <div class="hint">Play chords &amp; songs on your computer keyboard — no piano lessons required.</div>
+  </header>
+
+  <section class="panel song-panel">
+    <div class="song-panel-row">
+      <select id="song-select" class="select"></select>
+      <button id="demo-btn" class="btn btn-accent">▶ Demo</button>
+      <button id="restart-btn" class="btn">↺ Restart</button>
+      <span id="song-progress" class="progress-badge"></span>
+      <span id="song-score" class="score-badge"></span>
+    </div>
+    <div id="song-sheet" class="song-sheet"></div>
+  </section>
+
+  <section class="panel controls-panel">
+    <div class="control-group">
+      <label>Octave</label>
+      <div class="octave-control">
+        <button id="octave-down" class="btn btn-icon">−</button>
+        <span id="octave-display">C4</span>
+        <button id="octave-up" class="btn btn-icon">+</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Volume</label>
+      <input id="volume" type="range" min="-30" max="6" value="-6" step="1">
+    </div>
+
+    <div class="control-group">
+      <label>Key</label>
+      <select id="root-select" class="select">
+        <option>C</option><option>C#</option><option>D</option><option>D#</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>G#</option><option>A</option><option>A#</option><option>B</option>
+      </select>
+      <select id="scale-select" class="select">
+        <option value="major">Major</option>
+        <option value="minor">Minor</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="chord-toggle">Chord Mode <span class="kbd-hint">(Tab)</span></label>
+      <label class="switch">
+        <input type="checkbox" id="chord-toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <section id="chord-panel-wrap" class="panel chord-panel-wrap hidden">
+    <div class="section-label">Chord Mode — press a white key on the lower row for its chord. Hold <span class="kbd">Shift</span> for 7ths.</div>
+    <div id="chord-panel" class="chord-panel"></div>
+  </section>
+
+  <section class="panel piano-panel">
+    <div class="piano-scroll">
+      <div id="piano" class="piano"></div>
+    </div>
+    <div class="legend">
+      <span><span class="kbd">[</span> / <span class="kbd">]</span> shift octave</span>
+      <span><span class="kbd">Tab</span> toggle chords</span>
+      <span><span class="kbd">Shift</span> hold for 7th chords</span>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    Piano samples: Salamander Grand Piano by Alexander Holm (CC BY 3.0), via Tone.js instrument set · Audio engine: Tone.js
+  </footer>
+</div>
+
+<script src="js/tone.min.js"></script>
+<script src="js/keymap.js"></script>
+<script src="js/chords.js"></script>
+<script src="js/songs.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
