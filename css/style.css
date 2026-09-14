@@ -59,6 +59,8 @@ html, body {
 .logo-note { font-size: 1.4rem; }
 .logo-note.small { -webkit-text-fill-color: initial; color: var(--accent-3); }
 .hint { color: var(--text-dim); font-size: 0.9rem; }
+.header-nav { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.header-nav .btn { text-decoration: none; white-space: nowrap; }
 
 /* ---------- Panels ---------- */
 .panel {
@@ -113,6 +115,12 @@ html, body {
   box-shadow: 0 0 18px rgba(127,90,240,0.7);
 }
 .note-chip.current .chip-sub { color: #e8e3ff; }
+.song-examples {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  padding: 2px 2px 0;
+}
+.song-examples strong { color: var(--accent-3); }
 .note-chip.wrong {
   background: #c1355e;
   border-color: #ff6b9d;

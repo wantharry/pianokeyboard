@@ -74,4 +74,21 @@ const SONGS = [
     chords: [1,5,6,3,4,1,4,5, 1,5,6,3,4,1,4,5],
     melody: [],
   },
+  {
+    id: 'fourchords',
+    title: '★ 4 Chords That Play Hundreds of Songs (I-V-vi-IV)',
+    key: 'C', minor: false, tempo: 90,
+    chordOnly: true,
+    chords: [1,5,6,4, 1,5,6,4, 1,5,6,4],
+    examples: ["Let It Be", "No Woman No Cry", "With or Without You", "Someone Like You",
+      "Don't Stop Believin'", "Africa", "Take On Me", "I'm Yours", "When I Come Around"],
+  },
+  {
+    id: 'twelvebarblues',
+    title: '★ 12-Bar Blues / Classic Rock (I-IV-V)',
+    key: 'C', minor: false, tempo: 100,
+    chordOnly: true,
+    chords: [1,1,1,1, 4,4,1,1, 5,4,1,1],
+    examples: ["Sweet Home Chicago", "Johnny B. Goode", "La Bamba", "Twist and Shout", "Wild Thing"],
+  },
 ];

@@ -1,0 +1,106 @@
+.popular-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+.popular-pad {
+  padding: 22px 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.popular-pad .chord-key {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+.popular-pad .chord-name-big {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 6px;
+  color: var(--accent-2);
+}
+.popular-pad .chord-notes-small {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-family: monospace;
+  margin-top: 4px;
+}
+.popular-pad .chord-shift-hint {
+  font-size: 0.68rem;
+  color: var(--accent-3);
+  margin-top: 8px;
+  font-weight: 600;
+}
+.popular-pad.active {
+  background: linear-gradient(160deg, var(--accent-2), #1a8f5c);
+  border-color: var(--accent-2);
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 0 22px rgba(44,182,125,0.7);
+}
+
+.examples-list { display: flex; flex-direction: column; gap: 14px; }
+.example-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 12px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.example-row.playing-row {
+  border-color: var(--accent);
+  background: rgba(127,90,240,0.08);
+}
+.example-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.example-title { font-weight: 600; }
+.example-chords { display: flex; gap: 6px; flex-wrap: wrap; }
+.play-song-btn { margin-left: auto; white-space: nowrap; }
+.example-chord {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.85rem;
+}
+.example-key {
+  background: var(--accent);
+  color: white;
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.timer-bar-track {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.timer-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+.example-sheet {
+  padding: 4px 2px 2px;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .popular-grid { grid-template-columns: repeat(3, 1fr); }
+  .play-song-btn { margin-left: 0; width: 100%; }
+}
+@media (max-width: 420px) {
+  .popular-grid { grid-template-columns: repeat(2, 1fr); }
+}

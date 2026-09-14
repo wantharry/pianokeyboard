@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Popular Chords — KeyChord Piano</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/popular.css">
+</head>
+<body>
+
+<div id="loading-overlay" class="overlay">
+  <div class="overlay-card">
+    <div class="logo-note">♪</div>
+    <h1>Popular Chords</h1>
+    <div id="loading-text">
+      <p>Loading real piano samples&hellip;</p>
+      <div class="spinner"></div>
+    </div>
+    <button id="start-btn" disabled>Loading&hellip;</button>
+  </div>
+</div>
+
+<div class="app">
+  <header class="app-header">
+    <div class="brand"><span class="logo-note small">♪</span> Top 10 Popular Chords</div>
+    <div class="hint">One letter, one chord — the 10 chords behind most pop, rock &amp; folk songs.</div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn">Piano</a>
+      <a href="chords.html" class="btn">All Chords</a>
+    </nav>
+  </header>
+
+  <section class="panel controls-panel">
+    <div class="control-group">
+      <label>Octave</label>
+      <div class="octave-control">
+        <button id="octave-down" class="btn btn-icon">−</button>
+        <span id="octave-display">C4</span>
+        <button id="octave-up" class="btn btn-icon">+</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Volume</label>
+      <input id="volume" type="range" min="-30" max="6" value="-6" step="1">
+    </div>
+    <div class="control-group" style="max-width:460px;">
+      <label>&nbsp;</label>
+      <p class="note-text">Each chord's own letter plays it: <strong>G C D E A F</strong>. Two chords share a letter (the more popular one gets the plain key) — hold <span class="kbd">Shift</span> for the other: <strong>⇧G</strong>=G7, <strong>⇧D</strong>=Dm, <strong>⇧E</strong>=E, <strong>⇧A</strong>=A. Hold any key to sustain, like a real key.</p>
+    </div>
+  </section>
+
+  <div id="popular-grid" class="popular-grid"></div>
+
+  <section class="panel">
+    <div class="section-label">Try these songs — all playable with just these 10 chords</div>
+    <div id="song-examples-list" class="examples-list"></div>
+  </section>
+
+  <footer class="app-footer">
+    Piano samples: Salamander Grand Piano by Alexander Holm (CC BY 3.0), via Tone.js instrument set
+  </footer>
+</div>
+
+<script src="js/tone.min.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/keymap.js"></script>
+<script src="js/chords.js"></script>
+<script src="js/popular.js"></script>
+</body>
+</html>

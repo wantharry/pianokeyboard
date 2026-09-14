@@ -15,91 +15,33 @@ const state = {
 };
 
 // ===================== Audio =====================
-const SAMPLE_NOTES = ['A0','C1','Ds1','Fs1','A1','C2','Ds2','Fs2','A2','C3','Ds3','Fs3','A3',
-  'C4','Ds4','Fs4','A4','C5','Ds5','Fs5','A5','C6','Ds6','Fs6','A6','C7','Ds7','Fs7','A7','C8'];
-
-function toToneName(sampleName) {
-  return sampleName.replace('s', '#');
-}
-
-const sampleUrls = {};
-SAMPLE_NOTES.forEach(s => { sampleUrls[toToneName(s)] = s + '.mp3'; });
-
-let sampler = null;
-let loaded = false;
-
-function initAudio() {
-  if (sampler) return;
+// initAudio/playNote/releaseNote/playNoteFor/noteFullName come from js/audio.js
+function startAudioLoading() {
   const startBtn = document.getElementById('start-btn');
   const loadingText = document.getElementById('loading-text');
-  sampler = new Tone.Sampler({
-    urls: sampleUrls,
-    baseUrl: 'sounds/piano/',
-    onload: () => {
-      loaded = true;
-      loadingText.classList.add('hidden');
-      startBtn.disabled = false;
-      startBtn.textContent = 'Click to Start Playing';
-    },
-  }).toDestination();
-  sampler.volume.value = state.volume;
-}
-
-function noteFullName(note, octave) {
-  return `${note}${octave}`;
-}
-
-function playNote(fullName, velocity = 0.9) {
-  if (!loaded) return;
-  sampler.triggerAttack(fullName, undefined, velocity);
-}
-function releaseNote(fullName) {
-  if (!loaded) return;
-  sampler.triggerRelease(fullName);
-}
-function playNoteFor(fullName, seconds) {
-  if (!loaded) return;
-  sampler.triggerAttackRelease(fullName, seconds);
+  initAudio(() => {
+    loadingText.classList.add('hidden');
+    startBtn.disabled = false;
+    startBtn.textContent = 'Click to Start Playing';
+  });
+  setVolume(state.volume);
 }
 
 // ===================== Note <-> keyboard resolution =====================
-// Find which physical key currently plays a given absolute note+octave,
-// preferring the lower "extension" keys (Comma..Slash) over QWERTY duplicates.
+// Find which physical key currently plays a given absolute note+octave.
 function noteOctaveToKeyEntry(note, absOctave) {
   const relOct = absOctave - state.baseOctave;
-  const candidates = KEY_LAYOUT.filter(k => k.note === note && k.oct === relOct);
-  if (candidates.length === 0) return null;
-  const nonUpper = candidates.find(k => !k.upper);
-  return nonUpper || candidates[0];
+  return KEY_LAYOUT.find(k => k.note === note && k.oct === relOct) || null;
 }
 
 // ===================== Building the visual keyboard =====================
 const pianoEl = document.getElementById('piano');
-// sort by real semitone position (oct*12 + chromatic index); upper-row duplicates share the
-// same oct value as their lower-row counterpart, so they collapse to one visual key below.
 function semitonePos(k) { return k.oct * 12 + CHROMATIC.indexOf(k.note); }
 
 function buildKeyboard() {
   pianoEl.innerHTML = '';
-  const seenWhite = new Set();
-  const whites = [];
-  KEY_LAYOUT.filter(k => !k.black).forEach(k => {
-    const pos = semitonePos(k);
-    if (seenWhite.has(pos)) return;
-    seenWhite.add(pos);
-    whites.push(k);
-  });
-  whites.sort((a,b) => semitonePos(a) - semitonePos(b));
-
-  const seenBlack = new Set();
-  const blacks = [];
-  KEY_LAYOUT.filter(k => k.black).forEach(k => {
-    const pos = semitonePos(k);
-    if (seenBlack.has(pos)) return;
-    seenBlack.add(pos);
-    blacks.push(k);
-  });
-  blacks.sort((a,b) => semitonePos(a) - semitonePos(b));
+  const whites = KEY_LAYOUT.filter(k => !k.black).sort((a,b) => semitonePos(a) - semitonePos(b));
+  const blacks = KEY_LAYOUT.filter(k => k.black).sort((a,b) => semitonePos(a) - semitonePos(b));
 
   const whiteWidth = 56;
   whites.forEach((k, i) => {
@@ -273,7 +215,7 @@ document.getElementById('octave-down').addEventListener('click', () => shiftOcta
 document.getElementById('octave-up').addEventListener('click', () => shiftOctave(1));
 document.getElementById('volume').addEventListener('input', (e) => {
   state.volume = Number(e.target.value);
-  if (sampler) sampler.volume.value = state.volume;
+  setVolume(state.volume);
 });
 document.getElementById('root-select').addEventListener('change', (e) => {
   state.rootNote = e.target.value;
@@ -285,7 +227,6 @@ document.getElementById('scale-select').addEventListener('change', (e) => {
 });
 document.getElementById('start-btn').addEventListener('click', async () => {
   await Tone.start();
-  initAudio();
   document.getElementById('loading-overlay').classList.add('hidden');
 });
 
@@ -324,6 +265,14 @@ function loadSong(id) {
   state.queue = buildPracticeQueue(song);
   renderSheet();
   updateScore();
+
+  const examplesEl = document.getElementById('song-examples');
+  if (song.examples && song.examples.length) {
+    examplesEl.innerHTML = `<strong>Works with:</strong> ${song.examples.join(', ')} &mdash; loop the chords below and sing along!`;
+    examplesEl.classList.remove('hidden');
+  } else {
+    examplesEl.classList.add('hidden');
+  }
 }
 
 function labelForEvent(ev) {
@@ -446,4 +395,4 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 buildKeyboard();
 renderChordPanel();
 loadSong(SONGS[0].id);
-initAudio();
+startAudioLoading();

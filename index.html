@@ -25,6 +25,10 @@
   <header class="app-header">
     <div class="brand"><span class="logo-note small">♪</span> KeyChord Piano</div>
     <div class="hint">Play chords &amp; songs on your computer keyboard — no piano lessons required.</div>
+    <nav class="header-nav">
+      <a href="popular.html" class="btn btn-accent">🔥 Popular Chords</a>
+      <a href="chords.html" class="btn">🎼 All Chords</a>
+    </nav>
   </header>
 
   <section class="panel song-panel">
@@ -36,6 +40,7 @@
       <span id="song-score" class="score-badge"></span>
     </div>
     <div id="song-sheet" class="song-sheet"></div>
+    <div id="song-examples" class="song-examples hidden"></div>
   </section>
 
   <section class="panel controls-panel">
@@ -97,6 +102,7 @@
 </div>
 
 <script src="js/tone.min.js"></script>
+<script src="js/audio.js"></script>
 <script src="js/keymap.js"></script>
 <script src="js/chords.js"></script>
 <script src="js/songs.js"></script>

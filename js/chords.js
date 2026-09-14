@@ -9,14 +9,46 @@ const MAJOR_QUALITIES = ['maj', 'min', 'min', 'maj', 'maj', 'min', 'dim'];
 const MINOR_QUALITIES = ['min', 'dim', 'maj', 'min', 'min', 'maj', 'maj'];
 
 const CHORD_INTERVALS = {
-  maj:  [0, 4, 7],
-  min:  [0, 3, 7],
-  dim:  [0, 3, 6],
-  maj7: [0, 4, 7, 11],
-  min7: [0, 3, 7, 10],
-  dom7: [0, 4, 7, 10],
-  dim7: [0, 3, 6, 9],
+  maj:   [0, 4, 7],
+  min:   [0, 3, 7],
+  dim:   [0, 3, 6],
+  aug:   [0, 4, 8],
+  sus2:  [0, 2, 7],
+  sus4:  [0, 5, 7],
+  maj7:  [0, 4, 7, 11],
+  min7:  [0, 3, 7, 10],
+  dom7:  [0, 4, 7, 10],
+  dim7:  [0, 3, 6, 9],
+  m7b5:  [0, 3, 6, 10],
 };
+
+// Display order + short suffix used for chord names, e.g. "C" + "" = "C", "C" + "m7" = "Cm7".
+const CHORD_QUALITY_LIST = [
+  { key: 'maj',  suffix: '',    name: 'Major' },
+  { key: 'min',  suffix: 'm',   name: 'Minor' },
+  { key: 'dom7', suffix: '7',   name: 'Dominant 7th' },
+  { key: 'maj7', suffix: 'maj7', name: 'Major 7th' },
+  { key: 'min7', suffix: 'm7',  name: 'Minor 7th' },
+  { key: 'dim',  suffix: 'dim', name: 'Diminished' },
+  { key: 'dim7', suffix: 'dim7', name: 'Diminished 7th' },
+  { key: 'm7b5', suffix: 'm7♭5', name: 'Half-Diminished' },
+  { key: 'aug',  suffix: 'aug', name: 'Augmented' },
+  { key: 'sus2', suffix: 'sus2', name: 'Suspended 2nd' },
+  { key: 'sus4', suffix: 'sus4', name: 'Suspended 4th' },
+];
+
+// Build any named chord (root + quality key) as {note, octave} pairs, anchored so the
+// root sits in baseOctave and higher chord tones fall in baseOctave or baseOctave+1.
+function buildChordByRootQuality(rootNote, qualityKey, baseOctave) {
+  const rootIdx = CHROMATIC.indexOf(rootNote);
+  const intervals = CHORD_INTERVALS[qualityKey];
+  return intervals.map(semi => {
+    const absolute = rootIdx + semi;
+    const noteName = CHROMATIC[absolute % 12];
+    const octaveBump = Math.floor(absolute / 12);
+    return { note: noteName, octave: baseOctave + octaveBump };
+  });
+}
 
 const ROOT_NOTE_OPTIONS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 
